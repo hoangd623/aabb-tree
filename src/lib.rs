@@ -122,6 +122,7 @@ where
             false
         }
     }
+    #[allow(dead_code)]
     fn is_parent(&self) -> bool {
         !self.is_leaf()
     }
@@ -251,7 +252,7 @@ where
             Proxy::new(self.nodes.len() - 1)
         });
 
-        let mut node = &mut self.nodes[proxy.v];
+        let node = &mut self.nodes[proxy.v];
         node.status = status;
         self.free_list = match node.link {
             NodeLink::Next(next) => next,
@@ -264,7 +265,7 @@ where
     fn free_node(&mut self, proxy: Proxy) {
         assert!(proxy.v < self.nodes.len());
 
-        let mut nodes = &mut self.nodes;
+        let nodes = &mut self.nodes;
         let free_list = self.free_list;
 
         self.free_list = nodes.get_mut(proxy.v).and_then(|node| {
@@ -676,7 +677,7 @@ where
     /// `None` if the `proxy_id` is invalid.
     pub fn user_data_mut(&mut self, proxy: Proxy) -> Option<&mut T> {
         self.nodes.get_mut(proxy.v).and_then(
-            |mut node| match node.status {
+            |node| match node.status {
                 NodeStatus::Leaf(Some(ref mut t)) => Some(t),
                 _ => None,
             },

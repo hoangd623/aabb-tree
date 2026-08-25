@@ -27,9 +27,10 @@ pub trait Aabb: ::std::fmt::Debug {
     type Precision: Zero + One + Num + PartialOrd + Copy;
 
     /// Returns a new AABB from two tuples.
+    #[allow(dead_code)]
     fn with_params(
-        (Self::Precision, Self::Precision, Self::Precision),
-        (Self::Precision, Self::Precision, Self::Precision),
+        _: (Self::Precision, Self::Precision, Self::Precision),
+        _: (Self::Precision, Self::Precision, Self::Precision),
     ) -> Self
     where
         Self: Sized;
@@ -43,6 +44,7 @@ pub trait Aabb: ::std::fmt::Debug {
     /// # Panics
     ///
     /// Panics in debug mode unless both AABBs are valid.
+    #[allow(dead_code)]
     fn contains<T: Aabb<Precision = Self::Precision>>(&self, other: &T) -> bool {
         //debug_assert!(self.is_valid() && other.is_valid(), "AABB is not valid");
         debug_assert!(self.is_valid() && other.is_valid(), "({:?}, {:?}) AABB is not valid", self, other);
